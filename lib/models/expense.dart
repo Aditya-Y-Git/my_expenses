@@ -1,8 +1,23 @@
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
+// Uuid is a package used to generate unique id
 const uuid = Uuid();
 
-enum Category { food, other, fuel, movie, travel, cigarette }
+// intl is a package used to formate date in multiple formats
+final formatter = DateFormat.yMd();
+
+enum Category { food, drinks, fuel, movie, travel, other }
+
+const categoryIcons = {
+  Category.food: Icons.dining,
+  Category.drinks: Icons.wine_bar,
+  Category.fuel: Icons.local_gas_station,
+  Category.movie: Icons.movie_filter_sharp,
+  Category.travel: Icons.directions_bike_rounded,
+  Category.other: Icons.more_rounded,
+};
 
 class Expense {
   Expense(
@@ -17,4 +32,8 @@ class Expense {
   final double amount;
   final DateTime date;
   final Category category;
+
+  String get formattedDate {
+    return formatter.format(date);
+  }
 }
