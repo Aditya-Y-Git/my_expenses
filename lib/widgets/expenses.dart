@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_expenses/models/expense.dart';
+import 'package:my_expenses/widgets/chart/chart.dart';
 import 'package:my_expenses/widgets/expenses_list.dart';
 import 'package:my_expenses/widgets/new_expense.dart';
 
@@ -16,13 +17,13 @@ class _ExpensesState extends State<Expenses> {
   final List<Expense> registeredExpenses = [
     Expense(
       title: 'Food',
-      amount: 50,
+      amount: 100,
       date: DateTime.now(),
       category: Category.food,
     ),
     Expense(
-      title: 'Cigarette',
-      amount: 18,
+      title: 'Flutter Course',
+      amount: 399,
       date: DateTime.now(),
       category: Category.other,
     ),
@@ -31,6 +32,24 @@ class _ExpensesState extends State<Expenses> {
       amount: 200,
       date: DateTime.now(),
       category: Category.movie,
+    ),
+    Expense(
+      title: 'Petrol',
+      amount: 150,
+      date: DateTime.now(),
+      category: Category.fuel,
+    ),
+    Expense(
+      title: 'Tea',
+      amount: 20,
+      date: DateTime.now(),
+      category: Category.drinks,
+    ),
+    Expense(
+      title: 'Travel',
+      amount: 250,
+      date: DateTime.now(),
+      category: Category.travel,
     ),
   ];
 
@@ -92,7 +111,9 @@ class _ExpensesState extends State<Expenses> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Expenses'),
+        title: const Text(
+          'My Expenses',
+        ),
         actions: [
           IconButton(
             onPressed: _openAddExpenseOverlay,
@@ -102,7 +123,7 @@ class _ExpensesState extends State<Expenses> {
       ),
       body: Column(
         children: [
-          const Text('Chart'),
+          Chart(expenses: registeredExpenses),
           Expanded(child: mainContent),
         ],
       ),
