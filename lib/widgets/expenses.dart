@@ -37,6 +37,8 @@ class _ExpensesState extends State<Expenses> {
   // when the + sign in app is placed a overlay will be opened to enter the expense item details
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      // isScrollControlled will open the modal in full screen
+      isScrollControlled: true,
       context: context,
       builder: (ctx) {
         return NewExpense(
