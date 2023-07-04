@@ -11,6 +11,8 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  DateTime? _selectedDate;
+  Category _selectedCategory = Category.drinks;
 
   @override
   void dispose() {
@@ -18,8 +20,6 @@ class _NewExpenseState extends State<NewExpense> {
     _titleController.dispose();
     super.dispose();
   }
-
-  DateTime? _selectedDate;
 
   void _openDatePicker() async {
     final now = DateTime.now();
@@ -87,7 +87,25 @@ class _NewExpenseState extends State<NewExpense> {
           ),
           Row(
             children: [
-              const Text('Category'),
+              DropdownButton(
+                  value: _selectedCategory,
+                  items: Category.values
+                      .map(
+                        (category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(
+                            category.name.toUpperCase(),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    if (value == null) return;
+
+                    setState(() {
+                      _selectedCategory = value;
+                    });
+                  }),
               const Spacer(),
               Row(
                 children: [

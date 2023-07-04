@@ -8,7 +8,7 @@ const uuid = Uuid();
 // intl is a package used to formate date in multiple formats
 final formatter = DateFormat.yMd();
 
-enum Category { food, drinks, fuel, movie, travel, other }
+enum Category { drinks, food, fuel, movie, other, travel }
 
 const categoryIcons = {
   Category.food: Icons.dining,
