@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:my_expenses/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense(
+      {super.key, required this.expenses, required this.onAddExpesnse});
+
+  final List<Expense> expenses;
+  final void Function(Expense expense) onAddExpesnse;
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -33,6 +37,32 @@ class _NewExpenseState extends State<NewExpense> {
     setState(() {
       _selectedDate = pickedDate;
     });
+  }
+
+  void _submitExpenseData(Expense expense) {
+    final isInvalidTitle = _titleController.text.trim().isEmpty;
+    final enteredAmount = double.tryParse(_amountController.text);
+    final isInvalidAmount = enteredAmount == null || enteredAmount <= 0;
+    if (isInvalidTitle || isInvalidAmount || _selectedDate == null) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Inavlid inputd'),
+          content: const Text(
+              'Please make sure a valid title, amount, category and date is selected.'),
+          actions: [
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: const Text('okay'))
+          ],
+        ),
+      );
+      return;
+    }
+    widget.onAddExpesnse(expense);
+    Navigator.pop(context);
   }
 
   @override
@@ -116,7 +146,13 @@ class _NewExpenseState extends State<NewExpense> {
                       child: const Text('cancel')),
                   ElevatedButton(
                       onPressed: () {
-                        print(_titleController.text);
+                        _submitExpenseData(
+                          Expense(
+                              title: _titleController.text,
+                              amount: double.tryParse(_amountController.text)!,
+                              date: _selectedDate!,
+                              category: _selectedCategory),
+                        );
                       },
                       child: const Text('Save Expense')),
                 ],
