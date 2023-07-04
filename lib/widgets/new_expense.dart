@@ -39,7 +39,7 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
-  void _submitExpenseData(Expense expense) {
+  void _submitExpenseData() {
     final isInvalidTitle = _titleController.text.trim().isEmpty;
     final enteredAmount = double.tryParse(_amountController.text);
     final isInvalidAmount = enteredAmount == null || enteredAmount <= 0;
@@ -61,7 +61,14 @@ class _NewExpenseState extends State<NewExpense> {
       );
       return;
     }
-    widget.onAddExpesnse(expense);
+    widget.onAddExpesnse(
+      Expense(
+        title: _titleController.text,
+        amount: enteredAmount,
+        date: _selectedDate!,
+        category: _selectedCategory,
+      ),
+    );
     Navigator.pop(context);
   }
 
@@ -146,13 +153,7 @@ class _NewExpenseState extends State<NewExpense> {
                       child: const Text('cancel')),
                   ElevatedButton(
                       onPressed: () {
-                        _submitExpenseData(
-                          Expense(
-                              title: _titleController.text,
-                              amount: double.tryParse(_amountController.text)!,
-                              date: _selectedDate!,
-                              category: _selectedCategory),
-                        );
+                        _submitExpenseData();
                       },
                       child: const Text('Save Expense')),
                 ],
